@@ -1,0 +1,172 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+ 
+{% if user.is_superuser %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body border-0 shadow mb-4">
+            <div class="card border-0 shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-centered table-nowrap mb-0 rounded">
+                            <thead class="thead-light">
+                                <tr>
+                           
+                                    <th class="border-0">User ID</th>
+                                    <th class="border-0">Resume Classification</th>
+                                    <th class="border-0"> Score</th>
+                         
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Item -->
+                                {% for i in classifications %}
+                                <tr>
+
+                                    
+                                    <td class="fw-bold d-flex align-items-center">
+                                     
+                                        {{i.user}}
+                                    </td>
+
+                                    
+
+                                    <td >
+                                        {{i.statut}}
+                                    </td>
+
+                                    <td>
+                                        {{i.score}}
+                                    </td>
+                                  
+                                </tr>
+                                {% endfor %}
+                                <!-- End of Item -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+     
+
+
+</div>
+
+{% else %}
+<form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+                <h2 class="h5 mb-4">Select your resume</h2>
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <!-- Avatar -->
+                        <img class="rounded avatar-xl" src="/static/assets/img/resume.jpg" alt="change avatar">
+                    </div>
+                    <div class="file-field">
+                        <div class="d-flex justify-content-xl-center ms-xl-3">
+                            <div class="d-flex">
+                                <svg class="icon text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"></path></svg>
+                                <input type="file" name="docfile">
+                                <div class="d-md-block text-left">
+                                    <div class="fw-normal text-dark mb-1">Choose resume</div>
+                                    <div class="text-gray small">PDF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+
+                    <div class="file-field">
+                        <div class="d-flex justify-content-xl-center ms-xl-12">
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-block btn-gray-800 mb-3">Classification</button>
+
+                            </div>
+                        </div>
+                    </div>  
+                                      
+                </div>
+            </div>
+            
+        </div>
+
+         
+        <div class="col-12">
+            <div class="card card-body border-0 shadow mb-4">
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap mb-0 rounded">
+                                <thead class="thead-light">
+                                    <tr>
+                               
+                                        <th class="border-0">Class Name</th>
+                                        <th class="border-0">Probability Value</th>
+                                        <th class="border-0">show Resume</th>
+
+
+                             
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Item -->
+                                    <tr>
+                                        <td class="fw-bold d-flex align-items-center">
+                                            {{classification}}
+                                            
+                                        </td>
+                                     
+                                        <td>
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-12 col-xl-2 px-0">
+                                                    <div class="small fw-bold">{{probabilityValue}}%</div>
+                                                </div>
+                                                <div class="col-12 col-xl-10 px-0 px-xl-1">
+                                                    <div class="progress progress-lg mb-0">
+                                                        <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="{{probabilityValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{probabilityValue}}%;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td >
+                                        
+                                            <a href="{{profile.cv.url}}">Click to show resume</a>
+                                            
+                                            
+                                            
+                                        </td>
+                                    </tr>
+                                    <!-- End of Item -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+{% endif %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
